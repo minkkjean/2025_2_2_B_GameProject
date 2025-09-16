@@ -17,7 +17,7 @@ public class DeliveryUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (driver == null)
+        if (driver != null)
         {
             //Event 구독
             driver.driverEvents.OnMoveChanged.AddListener(UpdateMoney);
@@ -50,6 +50,7 @@ public class DeliveryUIManager : MonoBehaviour
         {
             messageText.text = message;
             messageText.color = color;
+            StartCoroutine(ClearMessageAgterDelay(2f));
 
         }
     }
@@ -128,22 +129,18 @@ public class DeliveryUIManager : MonoBehaviour
     }
 
      void OnDestroy()
-    {
-        //Event 구독 해제
-        driver.driverEvents.OnMoveChanged.AddListener(UpdateMoney);
-        driver.driverEvents.OnBatteryChanged.AddListener(UpdateBattery);
-        driver.driverEvents.OnDeliveryCountChanged.AddListener(UpdateDeliveryCount);
-        driver.driverEvents.OnMoveStarted.AddListener(OnMoveStarted);
-        driver.driverEvents.OnMoveStoped.AddListener(OnMoveStopped);
-        driver.driverEvents.OnLowBattery.AddListener(OnBattery);
-        driver.driverEvents.OnLowBatteryEmpty.AddListener(OnBatteryEmpty);
-        driver.driverEvents.OnDeliveryCompleted.AddListener(OnDeliveryCompleted);
-    }
-
-
-
-
-
-
-
+     {
+        if (driver != null)
+        {
+            driver.driverEvents.OnMoveChanged.AddListener(UpdateMoney);
+            driver.driverEvents.OnBatteryChanged.AddListener(UpdateBattery);
+            driver.driverEvents.OnDeliveryCountChanged.AddListener(UpdateDeliveryCount);
+            driver.driverEvents.OnMoveStarted.AddListener(OnMoveStarted);
+            driver.driverEvents.OnMoveStoped.AddListener(OnMoveStopped);
+            driver.driverEvents.OnLowBattery.AddListener(OnBattery);
+            driver.driverEvents.OnLowBatteryEmpty.AddListener(OnBatteryEmpty);
+            driver.driverEvents.OnDeliveryCompleted.AddListener(OnDeliveryCompleted);
+        }
+        
+     }
 }
